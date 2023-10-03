@@ -27,28 +27,7 @@ from transformers import (
     StoppingCriteriaList,
     pipeline,
 )
-from gpt_engineer.hf_llm_config import (
-    REDPAJAMA_3B,
-    REDPAJAMA_7B,
-    VICUNA_7B,
-    LMSYS_VICUNA_1_5_7B,
-    LMSYS_VICUNA_1_5_16K_7B,
-    LMSYS_LONGCHAT_1_5_32K_7B,
-    LMSYS_VICUNA_1_5_7B_Q8,
-    LMSYS_VICUNA_1_5_16K_7B_Q8,
-    LMSYS_VICUNA_1_5_13B_Q6,
-    LMSYS_VICUNA_1_5_16K_13B_Q6,
-    SANTA_CODER_1B,
-    STARCHAT_BETA_16B_Q5,
-    WIZARDCODER_3B,
-    WIZARDCODER_15B_Q8,
-    WIZARDCODER_PY_7B,
-    WIZARDCODER_PY_7B_Q6,
-    WIZARDCODER_PY_13B_Q6,
-    WIZARDCODER_PY_34B_Q5,
-    WIZARDLM_FALCON_40B_Q6K, 
-    LLMConfig,
-)
+from gpt_engineer.hf_llm_config import LLMConfig
 from gpt_engineer.hf_chat_model import ChatHuggingFace
 from gpt_engineer.hf_chatbot_base import HuggingFaceChatBotBase
 
@@ -69,7 +48,7 @@ class TokenUsage:
 
 
 class HF:
-    def __init__(self, llm_config : LLMConfig = None, temperature=0.1):
+    def __init__(self, llm_config : LLMConfig = None, temperature: int = None):
         """
         Initialize the AI class.
 
@@ -85,7 +64,8 @@ class HF:
             logger.info("No LLM config found. Exiting.")
             exit()
         self.llm_config = llm_config
-        self.llm_config.temperature = temperature
+        if temperature is not None:
+            self.llm_config.temperature = temperature #override temperature
         self.chatbot = HuggingFaceChatBotBase(llm_config=self.llm_config, disable_mem=True, server_mode=False)
         self.tokenizer = self.chatbot.tokenizer
         self.llm : ChatHuggingFace = create_chat_model(self, self.chatbot)

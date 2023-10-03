@@ -9,10 +9,32 @@ import typer
 from dotenv import load_dotenv
 
 from gpt_engineer.ai import AI
+from gpt_engineer.hf import HF
 from gpt_engineer.collect import collect_learnings
 from gpt_engineer.db import DB, DBs, archive
 from gpt_engineer.learning import collect_consent
 from gpt_engineer.steps import STEPS, Config as StepsConfig
+from gpt_engineer.hf_llm_config import (
+    REDPAJAMA_3B,
+    REDPAJAMA_7B,
+    VICUNA_7B,
+    LMSYS_VICUNA_1_5_7B,
+    LMSYS_VICUNA_1_5_16K_7B,
+    LMSYS_LONGCHAT_1_5_32K_7B,
+    LMSYS_VICUNA_1_5_7B_Q8,
+    LMSYS_VICUNA_1_5_16K_7B_Q8,
+    LMSYS_VICUNA_1_5_13B_Q6,
+    LMSYS_VICUNA_1_5_16K_13B_Q6,
+    STARCHAT_BETA_16B_Q5,
+    WIZARDCODER_3B,
+    WIZARDCODER_15B_Q8,
+    WIZARDCODER_PY_7B,
+    WIZARDCODER_PY_7B_Q6,
+    WIZARDCODER_PY_13B_Q6,
+    WIZARDCODER_PY_34B_Q5,
+    WIZARDLM_FALCON_40B_Q6K, 
+    LLMConfig,
+)
 
 app = typer.Typer()  # creates a CLI app
 
@@ -56,10 +78,15 @@ def main(
 
     load_env_if_needed()
 
-    ai = AI(
-        model_name=model,
-        temperature=temperature,
-        azure_endpoint=azure_endpoint,
+    # ai = AI(
+    #     model_name=model,
+    #     temperature=temperature,
+    #     azure_endpoint=azure_endpoint,
+    # )
+
+    ai = HF(
+        llm_config=WIZARDCODER_15B_Q8,
+        temperature=0.1,
     )
 
     input_path = Path(project_path).absolute()
@@ -96,7 +123,7 @@ def main(
     steps = STEPS[steps_config]
     for step in steps:
         messages = step(ai, dbs)
-        dbs.logs[step.__name__] = AI.serialize_messages(messages)
+        dbs.logs[step.__name__] = HF.serialize_messages(messages)
 
     print("Total api cost: $ ", ai.usage_cost())
 
