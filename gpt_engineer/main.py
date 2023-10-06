@@ -18,6 +18,8 @@ from gpt_engineer.hf_llm_config import (
     REDPAJAMA_3B,
     REDPAJAMA_7B,
     VICUNA_7B,
+    OPENORCA_MISTRAL_7B_8K,
+    OPENORCA_MISTRAL_7B_Q5,
     LMSYS_VICUNA_1_5_7B,
     LMSYS_VICUNA_1_5_16K_7B,
     LMSYS_LONGCHAT_1_5_32K_7B,
@@ -85,7 +87,7 @@ def main(
     # )
 
     ai = HF(
-        llm_config=WIZARDCODER_15B_Q8,
+        llm_config=OPENORCA_MISTRAL_7B_Q5,
         temperature=0.1,
     )
 

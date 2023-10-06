@@ -32,6 +32,7 @@ from gpt_engineer.hf_llm_config import (
     LMSYS_VICUNA_1_5_16K_7B_Q8,
     LMSYS_VICUNA_1_5_13B_Q6,
     LMSYS_VICUNA_1_5_16K_13B_Q6,
+    OPENORCA_MISTRAL_7B_8K,
     SANTA_CODER_1B,
     STARCHAT_BETA_16B_Q5,
     WIZARDCODER_3B,
@@ -370,12 +371,14 @@ if __name__ == "__main__":
     # bot = HuggingFaceChatBotBase(llm_config=REDPAJAMA_7B, disable_mem=True)
     # bot = HuggingFaceChatBotBase(llm_config=VICUNA_7B, disable_mem=True)
 
+    bot = HuggingFaceChatBotBase(llm_config=OPENORCA_MISTRAL_7B_8K, disable_mem=True)
+
     # bot = HuggingFaceChatBotBase(llm_config=LMSYS_VICUNA_1_5_7B)
     # bot = HuggingFaceChatBotBase(llm_config=LMSYS_VICUNA_1_5_16K_7B)
     # bot = HuggingFaceChatBotBase(llm_config=LMSYS_LONGCHAT_1_5_32K_7B)
 
     # bot = HuggingFaceChatBotBase(llm_config=LMSYS_VICUNA_1_5_7B, disable_mem=True)
-    bot = HuggingFaceChatBotBase(llm_config=LMSYS_VICUNA_1_5_16K_7B, disable_mem=True)
+    # bot = HuggingFaceChatBotBase(llm_config=LMSYS_VICUNA_1_5_16K_7B, disable_mem=True)
     # bot = HuggingFaceChatBotBase(llm_config=LMSYS_LONGCHAT_1_5_32K_7B, disable_mem=True)
 
     # GGUF Quantantized LLM, use less RAM
